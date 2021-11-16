@@ -1,0 +1,5 @@
+raza1	blanco
+raza2	gris
+raza3	negro
+raza4	negro
+raza5	blanco

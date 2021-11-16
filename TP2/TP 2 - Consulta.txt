@@ -1,0 +1,11 @@
+Una red social dedicada a la adopción de mascotas posee información de las mascotas que están en adopción y de los usuarios que quieren adoptarlas. La red social cuanta con un dataset compuesta por dos archivos.
+1. El archivo Mascota conformado por <ID_mascota: ID, especie: string, raza: string, colorPelaje: string, edad: int, fecha de alta: AAAA-MM-DD>
+2. El archivo Solicitudes conformado por <ID_mascota: ID, ID_usuario: ID, motivo: string, votación: int>
+
+NOTA: el archivo Mascota tiene información de todas las mascotas que se encuentran en adopción, el campo especie es la especie animal (gato, perro, loro, tortuga, etc.) y la fecha de alta es la fecha donde se publicó la información de la mascota luego de encontrarla. El archivo Solicitudes tiene información sobre los pedidos de los usuarios de adoptar una mascota, el campo motivo es el motivo que escribe el usuario en la red social para solicitar la adopción, el campo votación es un puntaje que recibe por parte de los otros usuarios (luego de un tiempo, la mascota es adoptada por el usuario que recibió más puntaje), el puntaje puede ser tanto positivo como negativo. Un usuario pudo haber realizado más de una solicitud para varias mascotas.
+ID_mascota es "Big Data".
+
+
+Se desea saber:
+- Para cada raza de una determinada especie (parámetro de la consulta): ¿Cuál es el color más predominante por cada raza?
+- Para cada especie quiénes son los tres usuario-mascota con mayor votación.

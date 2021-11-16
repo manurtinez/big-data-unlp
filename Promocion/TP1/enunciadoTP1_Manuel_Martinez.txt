@@ -1,0 +1,12 @@
+Manuel Martinez, 14255/8
+TP1 para promocion
+
+El sistema es una aplicacion de gestion de mascotas(perros y gatos) en adopcion en la ciudad de Buenos Aires. Se tiene datasets con todas las mascotas actuales buscando adopcion. Los datos que se tienen de cada uno estan en formato:
+
+clave	animal(gato|perro) color peso  edad(exacta o aproximada)  cantidad_de_dias_llevados_en_adopcion	coordenadas
+
+Los datos estan separados por tabs ('\t')
+
+Las 2 consultas que resultan utiles son:
+1. Los 10 perros que llevan mas dias en adopcion (para darles prioridad)
+2. Promedio de edad de los gatos
