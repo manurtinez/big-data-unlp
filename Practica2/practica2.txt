@@ -1,0 +1,10 @@
+1)
+a) y b)
+SI, ya que se usa siempre la misma clave de salida (1). El combiner iria
+"apilando" la salida de los map de la misma forma que los reducers. Luego,
+los reducers van recibiendo pares de clave - acumulado parcial
+
+c) Tambien se beneficiaria, ya que tiene 2 claves y poca distribucion. El
+resultado seria igual al a) y b)
+
+d) 

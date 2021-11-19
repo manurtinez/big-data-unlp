@@ -1,0 +1,6 @@
+1)
+a) 
+Map: una vez por tupla, o sea, 16.
+reduce: tambien 16, ya que la salida del map siempre tiene key 1
+mappers: uno por split, o sea 4
+reducers: 
