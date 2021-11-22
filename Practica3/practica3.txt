@@ -1,0 +1,23 @@
+1a)
+se podria hacer un comparador shuffle asi:
+
+def shuffle(key1, key2):
+    if key1.lower() == key2.lower():
+        return 0
+    elif key1 < key2:
+        return -1
+    else:
+        return 1
+
+de esta forma, al igualar las keys haciendo un lower, van a dar iguales
+aunque una sea mayuscula y una minuscula.
+IMPORTANTE: para resultados consistentes, el reducer deberia escribir:
+context.write(key.lower(), count)
+
+1b)
+con este comparator, se ejecutarian tantos como letras del abecedario existan
+tal que palabras empiezan con ellas.
+sino, seria lo mismo pero separando mayusculas y minusculas que irian a
+reducers diferentes.
+
+2)

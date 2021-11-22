@@ -8,3 +8,10 @@ c) Tambien se beneficiaria, ya que tiene 2 claves y poca distribucion. El
 resultado seria igual al a) y b)
 
 d) 
+
+punto 8a)
+"hola" = 7 * 500 / 7
+primer map y reduce: word count
+segundo map:
+
+8b) 
