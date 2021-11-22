@@ -21,7 +21,7 @@ def fcombiner(key, values, context):
     context.write(key, c)
 
 
-inputDir = "../Practica1/datasets/libros/"
+inputDir = "../datasets/libros/"
 outputDir = "./wordCountOut/"
 
 job = Job(inputDir, outputDir, fmap, freduce)

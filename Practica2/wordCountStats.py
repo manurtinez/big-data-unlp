@@ -53,7 +53,7 @@ def freduce3(key, values, context):
     context.write('promedio', total / count)
 
 
-inputDir = "../Practica1/datasets/libros/"
+inputDir = "../datasets/libros/"
 outputDir = "./wordCountOut/"
 inputDir2 = "./wordCountOut/"
 outputDir2 = "./wordCountMaxMinOut/"

@@ -14,7 +14,7 @@ def freduce(key, values, context):
     context.write(key, c)
 
 
-inputDir = "./datasets/libros/"
+inputDir = "../datasets/libros/"
 outputDir = "./wordCountOut/"
 
 job = Job(inputDir, outputDir, fmap, freduce)

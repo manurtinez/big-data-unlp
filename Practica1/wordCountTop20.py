@@ -14,7 +14,7 @@ def reduce(key, values, context):
     context.write(key, c)
 
 
-inputDir = "./datasets/libros/"
+inputDir = "../datasets/libros/"
 outputDir = "./wordCountTop20Out/"
 outputDir2 = "./wordCountTop20Out2/"
 
