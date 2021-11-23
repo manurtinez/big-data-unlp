@@ -1,0 +1,31 @@
+1)
+a) cartesian: wide
+b) coalesce: narrow?
+c) distinct: narrow
+d) flatMap: narrow
+e) flatMapValues: 
+f) intersection: wide
+g) repartition: narrow?
+h) substract: wide
+i) union: wide
+
+3)
+
+a) 3 etapas, dos por cada textFile(), cada una
+con todas las narrow hasta el join, y luego otra etapa para el join, 
+filter y reduce
+
+b) 4 stages: 
+primero, A = textfile - B = A.map - C = B.filter - C = B.filter
+segundo, D = C.groupByKey()
+tercero, E = C.groupByKey()
+cuarto, E = D.cogroup(E)
+
+c) 7 stages
+1. A = textfile - A = A.map - A = A.distinct - B = A.map
+2. B = textfile - B = B.filter
+3. C = textfile - C = C.filter
+4. E = C.join(B) - C = E.map - F = E.map - E = F.filter
+5. D = B.union(C)
+6. D = D.union(E).union(B)
+7. B = D.subtract(E) - B.count

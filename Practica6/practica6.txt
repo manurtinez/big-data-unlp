@@ -1,0 +1,15 @@
+2)
+el error del script, es reemplazar el rdd con cada iteracion, haciendo:
+
+rdd = rdd.map(lambda v: v ** acc.value)
+
+esto va a causar que, en la siguiente iteracion, en vez de tener el rdd
+original con [1,2,3,4,5], se va a tener el resultado del map, es decir,
+[1,4,9,16,25]. Esto con cada vuelta va a seguir incrementando, hasta
+que los numeros sean tan grandes que el programa no pueda continuar (aparte
+obviamente de que el resultado no va a ser el que deberia)
+
+la solucion, es crear un nuevo rdd alternativo en cada iteracion:
+
+rdd_tmp = rdd.map(lambda v: v ** acc.value)
+... continuar usando el rdd_tmp
