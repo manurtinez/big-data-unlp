@@ -1,6 +1,27 @@
 1)
+en todas, el map se ejecuta 16 veces (una vez por tupla), y con 4 mappers
+(1 por cada split)
 a) 
-Map: una vez por tupla, o sea, 16.
-reduce: tambien 16, ya que la salida del map siempre tiene key 1
-mappers: uno por split, o sea 4
-reducers: 
+reduce: una vez, ya que solo hay una clave de salida del map
+reducers: 1
+reduce recibe: (1, n) donde n es el valor de la tupla
+b)
+reduce: una vez, ya que solo hay una clave de salida del map
+reducers: 1
+reduce recibe: (1, n) donde n es el valor de la tupla
+c)
+reduce: 2 veces, ya que se generan 2 claves de salida del map (1 y 2)
+reducers: 2
+reduce recibe: un reduce recibe (1, n) donde n son los valores que fueron
+menores a 30, y otro reduce recibe (2, n) donde n son los valores que
+fueron mayores a 30
+d)
+reduce recibe: (key, value) igual que como vienen del dataset, pero repetidas
+una cantidad de veces igual a value
+reduce: tantos como key distintas existan, es decir, 14
+reducers: tambien, 14
+e)
+reduce recibe: (value, key), es decir, el value original pasa a ser key,
+y viceversa
+reduce: tantos como value distintos haya, es decir, 12
+reducers: tambien, 12

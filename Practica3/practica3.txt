@@ -17,7 +17,9 @@ context.write(key.lower(), count)
 1b)
 con este comparator, se ejecutarian tantos como letras del abecedario existan
 tal que palabras empiezan con ellas.
-sino, seria lo mismo pero separando mayusculas y minusculas que irian a
+sin el comparator, seria lo mismo pero separando mayusculas y minusculas que irian a
 reducers diferentes.
 
 2)
+
+3)
