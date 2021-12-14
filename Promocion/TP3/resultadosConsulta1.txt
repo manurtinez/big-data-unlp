@@ -1,0 +1,1 @@
+[('raza2', 'gris'), ('raza4', 'negro'), ('raza1', 'blanco'), ('raza3', 'negro'), ('raza5', 'blanco')]

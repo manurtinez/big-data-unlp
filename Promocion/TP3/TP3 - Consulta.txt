@@ -1,0 +1,12 @@
+Una red social dedicada a la adopci�n de mascotas posee informaci�n de las mascotas que est�n en adopci�n y de los usuarios que quieren adoptarlas. La red social cuanta con un dataset compuesta por dos archivos.
+1. El archivo Mascota conformado por <ID_mascota: ID, especie: string, raza: string, colorPelaje: string, edad: int, fecha de alta: AAAA-MM-DD>
+2. El archivo Solicitudes conformado por <ID_mascota: ID, ID_usuario: ID, motivo: string, votaci�n: int>
+
+NOTA: el archivo Mascota tiene informaci�n de todas las mascotas que se encuentran en adopci�n, el campo especie es la especie animal (gato, perro, loro, tortuga, etc.) y la fecha de alta es la fecha donde se public� la informaci�n de la mascota luego de encontrarla. El archivo Solicitudes tiene informaci�n sobre los pedidos de los usuarios de adoptar una mascota, el campo motivo es el motivo que escribe el usuario en la red social para solicitar la adopci�n, el campo votaci�n es un puntaje que recibe por parte de los otros usuarios (luego de un tiempo, la mascota es adoptada por el usuario que recibi� m�s puntaje), el puntaje puede ser tanto positivo como negativo. Un usuario pudo haber realizado m�s de una solicitud para varias mascotas.
+ID_mascota es "Big Data".
+
+-> RESOLVER EN SPARK <-
+
+Se desea saber:
+- Para cada raza de una determinada especie (par�metro de la consulta): �Cu�l es el color m�s predominante por cada raza?
+- Para cada especie qui�nes son los tres usuario-mascota con mayor votaci�n.
