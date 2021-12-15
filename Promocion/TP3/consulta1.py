@@ -28,12 +28,14 @@ rdd = rdd.groupBy(lambda x: x[2])
 # Hago un map, y por cada tupla saco el maximo de ocurrencias de color (en este caso, tupla[3])
 # El metodo most_common devuelve algo como [(valor, count)]. Por esto, le hago [0][0] para quedarme solo con el color (dato que me interesa)
 results = rdd.map(
-    lambda tupla: (tupla[0], Counter([datos[3] for datos in tupla[1]]).most_common(1)[0][0]))
+    lambda tupla: (tupla[0], Counter([datos[3] for datos in tupla[1]]).most_common(1)[0][0])).collect()
 
 # Imprimo resultados a consola
-print(results.collect())
+print(results)
 
 # Guardo resultados en un archivo
-file = open('resultadosConsulta1.txt', 'w')
-file.write(str(results.collect()))
-file.close()
+with open('resultadosConsulta1.txt', 'w') as file:
+    file.write('Color mas predominante para cada raza de la especie deseada:\n')
+    for tupla in results:
+        file.write(str(tupla) + '\n')
+    file.close()
