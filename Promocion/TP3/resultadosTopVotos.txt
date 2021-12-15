@@ -1,0 +1,25 @@
+Tres pares mascota-cliente con mas votos para c/ especie
+perro:
+('mascota: 986', 'cliente: 2304')
+('mascota: 310', 'cliente: 1481')
+('mascota: 310', 'cliente: 2294')
+loro:
+('mascota: 953', 'cliente: 1452')
+('mascota: 338', 'cliente: 1544')
+('mascota: 545', 'cliente: 2853')
+lechuza:
+('mascota: 707', 'cliente: 2234')
+('mascota: 790', 'cliente: 2015')
+('mascota: 902', 'cliente: 1124')
+tortuga:
+('mascota: 330', 'cliente: 1232')
+('mascota: 664', 'cliente: 1462')
+('mascota: 412', 'cliente: 1356')
+hamster:
+('mascota: 96', 'cliente: 1471')
+('mascota: 290', 'cliente: 1580')
+('mascota: 46', 'cliente: 2800')
+gato:
+('mascota: 72', 'cliente: 1042')
+('mascota: 452', 'cliente: 1224')
+('mascota: 617', 'cliente: 2240')

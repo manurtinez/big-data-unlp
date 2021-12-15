@@ -14,7 +14,6 @@ except IndexError:  # No se paso el parametro necesario
 
 
 rdd = sc.textFile('./datasets/Mascota.txt')
-# 898     hamster raza4   negro   6       2020-06-15
 # <ID_mascota: ID, especie: string, raza: string, colorPelaje: string, edad: int, fecha de alta: AAAA-MM-DD>
 
 # Separo cada dato
