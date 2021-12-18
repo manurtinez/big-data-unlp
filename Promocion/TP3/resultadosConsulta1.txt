@@ -1,6 +1,6 @@
 Color mas predominante para cada raza de la especie deseada:
 ('raza2', 'gris')
 ('raza4', 'negro')
-('raza1', 'blanco')
+('raza1', 'negro')
 ('raza3', 'negro')
 ('raza5', 'blanco')
