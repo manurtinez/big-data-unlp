@@ -47,8 +47,14 @@ rdd_join = rdd_mascotas.join(rdd_solicitudes)
 rdd_join = rdd_join.map(lambda t: (t[1][0], (t[0], t[1][1][0], t[1][1][1])))
 
 # Reduzco
+# (id, (id, votos)) entrada
+# [(id, id, votos), (id, id, votos),(id, id, votos)] salida
 results = rdd_join.aggregateByKey(
-    ((), (), ()), findMax, lambda x, y: x).collect()
+    ((), (), ()),
+    findMax,
+    lambda result1, result2: sorted(
+        result1 + result2, key=lambda item: int(item[2]), reverse=True)[:3]  # Ordena la combinacion de los 2 resultados y saca el top 3
+).collect()
 
 # Imprimo resultados a consola
 print(results)
