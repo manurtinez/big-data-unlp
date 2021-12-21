@@ -1,25 +1,25 @@
 Tres pares mascota-cliente con mas votos para c/ especie
-perro:
-('mascota: 986', 'cliente: 2304')
-('mascota: 310', 'cliente: 1481')
-('mascota: 310', 'cliente: 2294')
-loro:
-('mascota: 953', 'cliente: 1452')
-('mascota: 338', 'cliente: 1544')
-('mascota: 545', 'cliente: 2853')
-lechuza:
-('mascota: 707', 'cliente: 2234')
-('mascota: 790', 'cliente: 2015')
-('mascota: 902', 'cliente: 1124')
-tortuga:
-('mascota: 330', 'cliente: 1232')
-('mascota: 664', 'cliente: 1462')
-('mascota: 412', 'cliente: 1356')
-hamster:
-('mascota: 96', 'cliente: 1471')
-('mascota: 290', 'cliente: 1580')
-('mascota: 46', 'cliente: 2800')
-gato:
-('mascota: 72', 'cliente: 1042')
-('mascota: 452', 'cliente: 1224')
-('mascota: 617', 'cliente: 2240')
+---especie: lechuza---
+id mascota: 483, id usuario: 1304, votos: 100
+id mascota: 970, id usuario: 1553, votos: 100
+id mascota: 707, id usuario: 2234, votos: 99
+---especie: loro---
+id mascota: 833, id usuario: 2014, votos: 100
+id mascota: 975, id usuario: 1717, votos: 100
+id mascota: 953, id usuario: 1452, votos: 99
+---especie: perro---
+id mascota: 122, id usuario: 1934, votos: 100
+id mascota: 435, id usuario: 1168, votos: 100
+id mascota: 982, id usuario: 1572, votos: 100
+---especie: hamster---
+id mascota: 96, id usuario: 1471, votos: 99
+id mascota: 290, id usuario: 1580, votos: 99
+id mascota: 160, id usuario: 1505, votos: 94
+---especie: tortuga---
+id mascota: 412, id usuario: 2871, votos: 100
+id mascota: 962, id usuario: 2325, votos: 100
+id mascota: 992, id usuario: 1882, votos: 100
+---especie: gato---
+id mascota: 452, id usuario: 1224, votos: 98
+id mascota: 217, id usuario: 2167, votos: 97
+id mascota: 572, id usuario: 2927, votos: 96
