@@ -1,0 +1,33 @@
+Una red social dedicada a la adopción de mascotas posee información de las mascotas que están en adopción y de los usuarios que quieren adoptarlas. La red social cuanta con un dataset compuesta por dos archivos.
+1. El archivo Mascota conformado por <ID_mascota: ID, especie: string, raza: string, colorPelaje: string, edad: int, fecha de alta: AAAA-MM-DD>
+2. El archivo Solicitudes conformado por <ID_mascota: ID, ID_usuario: ID, motivo: string, votación: int>
+
+NOTA: el archivo Mascota tiene información de todas las mascotas que se encuentran en adopción, el campo especie es la especie animal (gato, perro, loro, tortuga, etc.) y la fecha de alta es la fecha donde se publicó la información de la mascota luego de encontrarla. El archivo Solicitudes tiene información sobre los pedidos de los usuarios de adoptar una mascota, el campo motivo es el motivo que escribe el usuario en la red social para solicitar la adopción, el campo votación es un puntaje que recibe por parte de los otros usuarios (luego de un tiempo, la mascota es adoptada por el usuario que recibió más puntaje), el puntaje puede ser tanto positivo como negativo. Un usuario pudo haber realizado más de una solicitud para varias mascotas.
+ID_mascota es "Big Data".
+
+
+Estimator:
+Para cada rango de años de venta (parámetro del modelo) calcular la cantidad de votos promedio entre todas las solicitudes de cada especie. 
+Ejemplos de rangos de años:
+	rango 3: años 2020-2018; 2017-2015; 2014-2012; 2011-2009....
+	rango 5: años 2020-2016; 2015-2011; 2010-2006; ....
+Ejemplo del modelo que debería generarse para rango 3:
+	rango		especie		votos_prom	
+	2020-2018	perro		100		
+	2020-2018	loro		200		
+	2020-2018	gato		45		
+	2017-2015	perro		50			
+	2017-2015	lechuza		120			
+	2014-2012	tortuga		410			
+	2014-2012	perro		15		
+	2011-2009	loro		654		
+	   ...
+
+Transformer:
+Dado un dataset <especie, fecha> agregar una nueva columna con el voto promedio que deberían tener dicha especie para ese año.
+Ejemplo:
+	especie		año		votos_prom (columna agregada por el transformer)
+	perro		2016		50	
+	loro		2018		200		
+	perro		2014		15		
+	tortuga		2020		None (el modelo no tiene info de tortugas para ese año)
