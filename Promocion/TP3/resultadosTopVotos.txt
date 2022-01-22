@@ -1,0 +1,25 @@
+Tres pares mascota-cliente con mas votos para c/ especie
+---especie: lechuza---
+id mascota: 483, id usuario: 1304, votos: 100
+id mascota: 970, id usuario: 1553, votos: 100
+id mascota: 882, id usuario: 2568, votos: 100
+---especie: loro---
+id mascota: 833, id usuario: 2014, votos: 100
+id mascota: 975, id usuario: 1717, votos: 100
+id mascota: 99, id usuario: 1633, votos: 100
+---especie: perro---
+id mascota: 122, id usuario: 1934, votos: 100
+id mascota: 435, id usuario: 1168, votos: 100
+id mascota: 982, id usuario: 1572, votos: 100
+---especie: hamster---
+id mascota: 587, id usuario: 1336, votos: 100
+id mascota: 903, id usuario: 1214, votos: 100
+id mascota: 96, id usuario: 1471, votos: 99
+---especie: tortuga---
+id mascota: 412, id usuario: 2871, votos: 100
+id mascota: 962, id usuario: 2325, votos: 100
+id mascota: 992, id usuario: 1882, votos: 100
+---especie: gato---
+id mascota: 498, id usuario: 2241, votos: 100
+id mascota: 865, id usuario: 1688, votos: 100
+id mascota: 765, id usuario: 2264, votos: 100
