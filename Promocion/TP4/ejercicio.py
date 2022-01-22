@@ -1,9 +1,10 @@
-from pyspark.ml.base import Estimator, Model
-from pyspark import SparkContext, Row
 from sys import argv
 
+from pyspark import Row, SparkContext
+from pyspark.ml.base import Estimator, Model
+from pyspark.sql import SQLContext, Window
 from pyspark.sql.dataframe import DataFrame
-from pyspark.sql import SQLContext
+from pyspark.sql.functions import ceil, lit, avg, round, sum
 
 # splitRandom()
 # Hacer join segun año y especie
@@ -12,30 +13,46 @@ from pyspark.sql import SQLContext
 # inicio = año % rango
 # fin = inicio - rango
 
-# try:
-#     rango = argv[1]
-# except IndexError:  # No se paso el parametro necesario
-#     print('Debe pasarse por argumento el rango deseado')
-#     exit()
+try:
+    rango = argv[1]
+except IndexError:  # No se paso el parametro necesario
+    print('Debe pasarse por argumento el rango deseado')
+    exit()
 
+# SPARK CONTEXT Y SQL CONTEXT
+sc = SparkContext('local', 'myapp')
+sqlc = SQLContext(sc)
 
 class MyTransformer(Model):
-    __rows = []
 
-    def addRow(self, row):
-        self.__rows.append(row)
+    def __init__(self, params):
+        super().__init__()
+        self._params = params
 
-    def transform(self, dataframe: DataFrame):
-        pass
+    def _transform(self, dataframe: DataFrame):
+        # Condiciones del join: [ rango == año / rango, especie == especie ]
+        cond = [self._params.rango == ceil(dataframe.fecha_alta / lit(rango)),
+                self._params.especie == dataframe.especie]
+
+        # Alias first y sec para tablas.
+        # Select fecha, especie, votos y promedio
+        return dataframe.alias("first") \
+            .join(self._params.alias("sec"), cond, "left") \
+            .select("first.fecha_alta", "first.especie", "first.votos", "sec.promedio") \
+            .na.fill("None")  # Filas sin info se llenan con None
 
 
 class MyEstimator(Estimator):
-    def fit(self, dataframe):
-        return MyTransformer()
+    def _fit(self, dataframe):
+        dataframe = dataframe.withColumn("rango", ceil(dataframe.fecha_alta / lit(rango))) \
+            .withColumn("promedio", round(avg("votos").over(Window.partitionBy("rango", "especie")))) \
+            .select("rango", "especie", "promedio").dropDuplicates()
+
+        print("Dataframe en fit:")
+        dataframe.show()
+        return MyTransformer(dataframe)
 
 
-sc = SparkContext('local', 'myapp')
-sqlc = SQLContext(sc)
 
 # MAIN
 
@@ -50,7 +67,7 @@ rdd_solicitudes = solicitudes.map(lambda line: line.split('\t'))
 
 # Transformo a Row pasa usar SQL
 rdd_mascotas = rdd_mascotas.map(lambda line: Row(
-    id_mascota=line[0], fecha_alta=line[5]))
+    id_mascota=line[0], especie=line[1], fecha_alta=line[5][:4]))  # Solo me interesa el año en la fecha
 rdd_solicitudes = rdd_solicitudes.map(
     lambda line: Row(id_mascota=line[0], votos=line[3]))
 
@@ -58,26 +75,22 @@ rdd_solicitudes = rdd_solicitudes.map(
 mascotas_df = sqlc.createDataFrame(rdd_mascotas)
 solicitudes_df = sqlc.createDataFrame(rdd_solicitudes)
 
+# Hacer el join de dataframes
 join_df = mascotas_df.join(solicitudes_df, 'id_mascota')
-print(join_df.first())
 
-# # Separo cada dato
-# # <ID_mascota: ID, especie: string, raza: string, colorPelaje: string, edad: int, fecha de alta: AAAA-MM-DD>
-# rdd_mascotas = mascotas.map(lambda line: line.split('\t'))
-# # <ID_mascota: ID, ID_usuario: ID, motivo: string, votaci�n: int>
-# rdd_solicitudes = solicitudes.map(lambda line: line.split('\t'))
+# Separar 80% para train y 20% para test (para sacar el error)
+train, test = join_df.randomSplit([0.8, 0.2])
 
-# # Formateo cada tupla para que quede como un par clave-valor con lo que me interesa
-# # (id_mascota, especie)
-# rdd_mascotas = rdd_mascotas.map(lambda t: (t[0], (t[1], t[5])))
-
-# # (id_mascota, (id_usuario, votos))
-# rdd_solicitudes = rdd_solicitudes.map(lambda t: (t[0], (t[1], t[3])))
-
-# # Join por (año-especie)
-# rdd_join = rdd_mascotas.join(rdd_solicitudes)
-# rdd_join = rdd_join.map(lambda t: (t[0], (t[1][0][0], t[1][0][1], *t[1][1])))
-# # rdd_join.groupBy(groupFunc)
-# print(rdd_join.first())
 # Entrenamiento modelo
-# modelo = MyEstimator.fit(mascotas, solicitudes)
+estimator = MyEstimator()
+model = estimator.fit(train)
+
+# Transformar modelo de test
+results = model.transform(test)
+
+# Mostrar resultado del transformer con columna promedio
+results.select("especie", "fecha_alta", "promedio").dropDuplicates().show()
+
+results = results.withColumn("diferencia", (results.votos - results.promedio) ** 2)
+error = results.agg(sum(results.diferencia)).collect()
+print("error: ", str(error[0][0] / results.count()))
