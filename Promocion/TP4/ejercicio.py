@@ -4,7 +4,7 @@ from pyspark import Row, SparkContext
 from pyspark.ml.base import Estimator, Model
 from pyspark.sql import SQLContext, Window
 from pyspark.sql.dataframe import DataFrame
-from pyspark.sql.functions import ceil, lit, avg, round, sum
+from pyspark.sql.functions import avg, round, sum, array_contains, array
 
 # splitRandom()
 # Hacer join segun año y especie
@@ -23,6 +23,7 @@ except IndexError:  # No se paso el parametro necesario
 sc = SparkContext('local', 'myapp')
 sqlc = SQLContext(sc)
 
+
 class MyTransformer(Model):
 
     def __init__(self, params):
@@ -30,32 +31,30 @@ class MyTransformer(Model):
         self._params = params
 
     def _transform(self, dataframe: DataFrame):
-        # Condiciones del join: [ rango == año / rango, especie == especie ]
-        cond = [self._params.rango == ceil(dataframe.fecha_alta / lit(rango)),
+        # Condiciones del join: [ fecha alta esta dentro de rango && especie == especie ]
+        cond = [array_contains(self._params.rango, dataframe.fecha_alta),
                 self._params.especie == dataframe.especie]
 
         # Alias first y sec para tablas.
         # Select fecha, especie, votos y promedio
-        return dataframe.alias("first") \
-            .join(self._params.alias("sec"), cond, "left") \
-            .select("first.fecha_alta", "first.especie", "first.votos", "sec.promedio") \
+        return dataframe.alias("df") \
+            .join(self._params.alias("params"), cond, "left") \
+            .select("df.fecha_alta", "df.especie", "df.votos", "params.promedio") \
             .na.fill("None")  # Filas sin info se llenan con None
 
 
 class MyEstimator(Estimator):
     def _fit(self, dataframe):
-        dataframe = dataframe.withColumn("rango", ceil(dataframe.fecha_alta / lit(rango))) \
+        dataframe = dataframe.withColumn("rango", array([dataframe.fecha_alta+i for i in range(int(rango))])) \
             .withColumn("promedio", round(avg("votos").over(Window.partitionBy("rango", "especie")))) \
             .select("rango", "especie", "promedio").dropDuplicates()
 
-        print("Dataframe en fit:")
+        print("------ DATAFRAME DE ESTIMATOR ------")
         dataframe.show()
         return MyTransformer(dataframe)
 
 
-
 # MAIN
-
 mascotas = sc.textFile('./datasets/Mascota.txt')
 solicitudes = sc.textFile('./datasets/Solicitudes.txt')
 
@@ -67,7 +66,7 @@ rdd_solicitudes = solicitudes.map(lambda line: line.split('\t'))
 
 # Transformo a Row pasa usar SQL
 rdd_mascotas = rdd_mascotas.map(lambda line: Row(
-    id_mascota=line[0], especie=line[1], fecha_alta=line[5][:4]))  # Solo me interesa el año en la fecha
+    id_mascota=line[0], especie=line[1], fecha_alta=int(line[5][:4])))  # Solo me interesa el año en la fecha
 rdd_solicitudes = rdd_solicitudes.map(
     lambda line: Row(id_mascota=line[0], votos=line[3]))
 
@@ -89,8 +88,10 @@ model = estimator.fit(train)
 results = model.transform(test)
 
 # Mostrar resultado del transformer con columna promedio
+print("------ DATAFRAME DE PREDICCION -------")
 results.select("especie", "fecha_alta", "promedio").dropDuplicates().show()
 
-results = results.withColumn("diferencia", (results.votos - results.promedio) ** 2)
+results = results.withColumn(
+    "diferencia", (results.votos - results.promedio) ** 2)
 error = results.agg(sum(results.diferencia)).collect()
-print("error: ", str(error[0][0] / results.count()))
+print("------ ERROR ------\n", str(error[0][0] / results.count()))
