@@ -14,7 +14,7 @@ from pyspark.sql.functions import avg, round, sum, array_contains, array
 # fin = inicio - rango
 
 try:
-    rango = argv[1]
+    rango = int(argv[1])
 except IndexError:  # No se paso el parametro necesario
     print('Debe pasarse por argumento el rango deseado')
     exit()
@@ -45,7 +45,7 @@ class MyTransformer(Model):
 
 class MyEstimator(Estimator):
     def _fit(self, dataframe):
-        dataframe = dataframe.withColumn("rango", array([dataframe.fecha_alta+i for i in range(int(rango))])) \
+        dataframe = dataframe.withColumn("rango", array([dataframe.fecha_alta+i for i in range(rango)])) \
             .withColumn("promedio", round(avg("votos").over(Window.partitionBy("rango", "especie")))) \
             .select("rango", "especie", "promedio").dropDuplicates()
 
